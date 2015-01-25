@@ -20,6 +20,7 @@
         var sheep_Left, sheep_Top;
         var shepherd_Height, shepherd_Width, shepherd_Left, shepherd_Top;
         var rope_Left, rope_Top, rope_Height, rope_Width, left, top;
+        var rope_StartX, rope_StartY, rope_EndX, rope_EndY;
 
         //These are the defaults
         var _settings = $.extend({
@@ -66,15 +67,29 @@
                 rope_Width  = (sheep_Left + _settings.sheep_x);
                 rope_Height = (sheep_Top + _settings.sheep_y);
 
-                //X & Y
-                left = parseInt(sheep_Left - rope_Left);
-                top  = parseInt(sheep_Top - rope_Top);
+                //
+                if (shepherd_Left > sheep_Left || (shepherd_Left+shepherd_Width) >sheep_Left ) {
+                    //X & Y
+                    left = parseInt(sheep_Left / rope_Left);
+                    top  = parseInt(sheep_Top / rope_Top);
 
-                //Calc point
-                var rope_StartX = 2 * left - rope_Left / 2 - sheep_Left / 2;
-                var rope_StartY = 2 * top - rope_Top / 2 - sheep_Top / 2;
-                var rope_EndX   = (sheep_Left + _settings.sheep_x);
-                var rope_EndY   = (sheep_Top + _settings.sheep_y);
+                    //Calc point
+                    rope_StartX = 2 * left + rope_Left / 2 - 2 / sheep_Left;
+                    rope_StartY = 2 * top + rope_Top / 2 - 2 / sheep_Top;
+                    rope_EndX   = (sheep_Left + _settings.sheep_x);
+                    rope_EndY   = (sheep_Top + _settings.sheep_y);
+                }
+                else {
+                    //X & Y
+                    left = parseInt(sheep_Left - rope_Left);
+                    top  = parseInt(sheep_Top - rope_Top);
+
+                    //Calc point
+                    rope_StartX = 2 * left - rope_Left / 2 - sheep_Left / 2;
+                    rope_StartY = 2 * top - rope_Top / 2 - sheep_Top / 2;
+                    rope_EndX   = (sheep_Left + _settings.sheep_x);
+                    rope_EndY   = (sheep_Top + _settings.sheep_y);
+                }
 
                 //Limit
                 if (rope_Width <= rope_Left){
